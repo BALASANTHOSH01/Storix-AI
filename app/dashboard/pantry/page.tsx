@@ -1,11 +1,11 @@
-// src/pages/dashboard/pantry.tsx
 "use client";
 
 import { useEffect, useState } from 'react';
 import DashboardLayout from '@/components/Dashboard/DashboardLayout';
 import PantryList from '@/components/Pantry/PantryList';
-import AddEditItemForm from '@/components/Pantry/AddEditItemForm';
+import AddEditItemForm from '@/components/AddEditItemForm';
 import { fetchPantryItems, addPantryItem, updatePantryItem, deletePantryItem } from '@/services/pantryServices';
+import { uploadImage } from '@/services/storageService';
 
 const Pantry = () => {
   const [pantryItems, setPantryItems] = useState<any[]>([]);
@@ -19,15 +19,23 @@ const Pantry = () => {
     getItems();
   }, []);
 
-  const handleSave = async (item: any) => {
-    if (item.id) {
-      await updatePantryItem(item.id, item);
-    } else {
-      await addPantryItem(item);
+  const handleSave = async (item: any, imageFile: File | null) => {
+    try {
+      let imageUrl = item.image || "";
+      if (imageFile) {
+        imageUrl = await uploadImage(imageFile);
+      }
+      if (item.id) {
+        await updatePantryItem(item.id, { ...item, image: imageUrl });
+      } else {
+        await addPantryItem({ ...item, image: imageUrl });
+      }
+      setEditingItem(null);
+      const items = await fetchPantryItems();
+      setPantryItems(items);
+    } catch (error) {
+      console.error("Failed to save pantry item:", error);
     }
-    setEditingItem(null);
-    const items = await fetchPantryItems();
-    setPantryItems(items);
   };
 
   const handleDelete = async (id: string) => {
@@ -42,9 +50,22 @@ const Pantry = () => {
 
   return (
     <DashboardLayout>
-      <h1 className="text-3xl font-bold">Pantry Management</h1>
+      <h1 className="text-3xl font-bold mb-6">Pantry Management</h1>
+      {editingItem ? (
+        <AddEditItemForm
+          item={editingItem}
+          onSave={handleSave}
+          onCancel={handleCancel}
+        />
+      ) : (
+        <button
+          onClick={() => setEditingItem({ name: '', quantity: 0, image: '' })}
+          className="mb-6 px-4 py-2 bg-blue-500 text-white rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+        >
+          Add New Item
+        </button>
+      )}
       <PantryList items={pantryItems} onEdit={setEditingItem} onDelete={handleDelete} />
-      <AddEditItemForm item={editingItem} onSave={handleSave} onCancel={handleCancel} />
     </DashboardLayout>
   );
 };

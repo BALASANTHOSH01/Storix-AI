@@ -1,57 +1,71 @@
-// src/pages/dashboard/inventory.tsx
 "use client";
 
-import DashboardLayout from "@/components/Dashboard/DashboardLayout";
-import { useEffect, useState } from "react";
-import { auth } from "@/firebase/config";
-import { useRouter } from "next/navigation";
-import { onAuthStateChanged } from "firebase/auth";
-import InventoryList from "@/components/Inventory/InventoryList";
-import { fetchInventoryItems } from "@/services/inventoryService";
-
-interface Item {
-  id: string;
-  name: string;
-  quantity: number;
-  image?: string;
-}
+import { useEffect, useState } from 'react';
+import DashboardLayout from '@/components/Dashboard/DashboardLayout';
+import InventoryList from '@/components/Inventory/InventoryList';
+import AddEditItemForm from '@/components/AddEditItemForm';
+import { fetchInventoryItems, addInventoryItem, updateInventoryItem, deleteInventoryItem } from '@/services/inventoryService';
+import { uploadImage } from '@/services/storageService';
 
 const Inventory = () => {
-  const router = useRouter();
-  const [inventoryItems, setInventoryItems] = useState<Item[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [inventoryItems, setInventoryItems] = useState<any[]>([]);
+  const [editingItem, setEditingItem] = useState<any>(null);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        router.push("/");
-      }
-    });
-    return () => unsubscribe();
-  }, [router]);
-
-  useEffect(() => {
-    const getInventoryItems = async () => {
-      try {
-        const items = await fetchInventoryItems();
-        setInventoryItems(items);
-      } catch (error) {
-        console.error("Failed to fetch inventory items:", error);
-      } finally {
-        setLoading(false);
-      }
+    const getItems = async () => {
+      const items = await fetchInventoryItems();
+      setInventoryItems(items);
     };
-    getInventoryItems();
+    getItems();
   }, []);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  const handleSave = async (item: any, imageFile: File | null) => {
+    try {
+      let imageUrl = item.image || "";
+      if (imageFile) {
+        imageUrl = await uploadImage(imageFile);
+      }
+      if (item.id) {
+        await updateInventoryItem(item.id, { ...item, image: imageUrl });
+      } else {
+        await addInventoryItem({ ...item, image: imageUrl });
+      }
+      setEditingItem(null);
+      const items = await fetchInventoryItems();
+      setInventoryItems(items);
+    } catch (error) {
+      console.error("Failed to save inventory item:", error);
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    await deleteInventoryItem(id);
+    const items = await fetchInventoryItems();
+    setInventoryItems(items);
+  };
+
+  const handleCancel = () => {
+    setEditingItem(null);
+  };
 
   return (
     <DashboardLayout>
-      <h1 className="text-3xl font-bold">Inventory Management</h1>
-      <InventoryList items={inventoryItems} onEdit={() => {}} onDelete={() => {}} />
+      <h1 className="text-3xl font-bold mb-6">Inventory Management</h1>
+      {editingItem ? (
+        <AddEditItemForm
+          item={editingItem}
+          onSave={handleSave}
+          onCancel={handleCancel}
+        />
+      ) : (
+        <button
+          onClick={() => setEditingItem({ name: '', quantity: 0, image: '' })}
+          className="mb-6 px-4 py-2 bg-blue-500 text-white rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+        >
+          Add New Item
+        </button>
+      )}
+      <InventoryList items={inventoryItems} onEdit={setEditingItem} onDelete={handleDelete} />
     </DashboardLayout>
   );
 };
