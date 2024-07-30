@@ -1,4 +1,4 @@
-// src/services/authService.ts
+"use client"
 
 import { signInWithPopup, signOut } from "firebase/auth";
 import { auth, googleProvider } from "../firebase/config";

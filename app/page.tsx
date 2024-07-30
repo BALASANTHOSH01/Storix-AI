@@ -1,7 +1,7 @@
-// src/pages/index.tsx
+"use client";
 
 import { signInWithGoogle } from "../services/authService";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { auth } from "../firebase/config";
 import { onAuthStateChanged } from "firebase/auth";

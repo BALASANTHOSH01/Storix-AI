@@ -1,7 +1,5 @@
 "use client"
 
-// src/components/ProtectedRoute.tsx
-
 import { useEffect, ReactNode } from "react";
 import { useRouter } from "next/router";
 import { auth } from "../../firebase/config";

@@ -1,11 +1,11 @@
-// src/pages/dashboard/reports.tsx
+"use client"
 
-import DashboardLayout from "../../components/DashboardLayout";
+import DashboardLayout from "@/components/Dashboard/DashboardLayout";
 import { useEffect, useState } from "react";
-import { auth } from "../../firebase/config";
+import { auth } from "@/firebase/config";
 import { useRouter } from "next/navigation";
 import { onAuthStateChanged } from "firebase/auth";
-import ReportCard from "../../components/ReportCard";
+import ReportCard from "@/components/Report/ReportCard";
 
 const Reports = () => {
   const router = useRouter();

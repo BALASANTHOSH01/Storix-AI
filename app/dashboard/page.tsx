@@ -1,11 +1,12 @@
-// src/pages/dashboard/index.tsx
+"use client"
 
-import DashboardLayout from "../../components/DashboardLayout";
+import DashboardLayout from "@/components/Dashboard/DashboardLayout";
 import { useEffect, useState } from "react";
 import { auth } from "../../firebase/config";
 import { useRouter } from "next/navigation";
 import { onAuthStateChanged } from "firebase/auth";
-import ReportCard from "../../components/ReportCard";
+import ReportCard from "@/components/Report/ReportCard";
+import { withAuth } from "@/components/WithAuth/WithAuth";
 
 const DashboardHome = () => {
   const router = useRouter();
@@ -34,4 +35,4 @@ const DashboardHome = () => {
   );
 };
 
-export default DashboardHome;
+export default withAuth(DashboardHome);

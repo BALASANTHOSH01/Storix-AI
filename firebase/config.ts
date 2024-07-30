@@ -1,4 +1,4 @@
-// src/firebase/config.ts
+"use client"
 
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
@@ -20,3 +20,4 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const firestore = getFirestore(app);
 export const googleProvider = new GoogleAuthProvider();
+

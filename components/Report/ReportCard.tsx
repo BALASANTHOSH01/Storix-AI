@@ -1,4 +1,4 @@
-// src/components/ReportCard.tsx
+"use client"
 
 const ReportCard = ({ title, value }: { title: string; value: string }) => {
     return (

@@ -1,12 +1,12 @@
-// src/pages/dashboard/pantry.tsx
+"use client"
 
-import DashboardLayout from "../../components/DashboardLayout";
+import DashboardLayout from "@/components/Dashboard/DashboardLayout";
 import { useEffect, useState } from "react";
-import { auth } from "../../firebase/config";
+import { auth } from "@/firebase/config"; 
 import { useRouter } from "next/navigation";
 import { onAuthStateChanged } from "firebase/auth";
-import PantryList from "../../components/PantryList";
-import { fetchPantryItems } from "../../services/pantryService";
+import PantryList from "@/components/Pantry/PantryList";
+import { fetchPantryItems } from "@/services/pantryServices"; 
 
 const Pantry = () => {
   const router = useRouter();

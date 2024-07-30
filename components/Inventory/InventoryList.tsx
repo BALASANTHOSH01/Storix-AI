@@ -1,4 +1,4 @@
-// src/components/InventoryList.tsx
+"use client"
 
 interface InventoryItem {
     id: string;

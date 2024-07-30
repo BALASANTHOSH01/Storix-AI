@@ -1,4 +1,4 @@
-// src/components/PantryList.tsx
+"use client"
 
 interface PantryItem {
     id: string;
