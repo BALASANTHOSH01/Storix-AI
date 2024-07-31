@@ -1,12 +1,13 @@
 "use client";
 
-import Image from 'next/image';
 import React, { useState } from 'react';
+import Image from 'next/image';
 
 interface Item {
   id?: string;
   name: string;
   quantity: number;
+  category: any;
   image?: string;
 }
 
@@ -16,15 +17,35 @@ interface AddEditItemFormProps {
   onCancel: () => void;
 }
 
+const categoryOptions = [
+  "Vegetables",
+  "Fruits",
+  "Dairy",
+  "Meat",
+  "Fish",
+  "Bakery",
+  "Beverages",
+  "Canned Goods",
+  "Dry Goods",
+  "Frozen Foods",
+  "Snacks",
+  "Condiments",
+  "Spices",
+  "Personal Care",
+  "Cleaning Supplies",
+  "Other"
+];
+
 const AddEditItemForm: React.FC<AddEditItemFormProps> = ({ item = {}, onSave, onCancel }) => {
   const [name, setName] = useState(item.name || '');
   const [quantity, setQuantity] = useState(item.quantity || 0);
+  const [category, setCategory] = useState(item.category || categoryOptions[0]); // Default category
   const [image, setImage] = useState(item.image || '');
   const [imageFile, setImageFile] = useState<File | null>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSave({ name, quantity, image }, imageFile);
+    onSave({ name, quantity, category, image }, imageFile);
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,9 +55,9 @@ const AddEditItemForm: React.FC<AddEditItemFormProps> = ({ item = {}, onSave, on
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 border bg-white p-6 md:w-[50%] sm:w-[100%] rounded-lg shadow-md mx-auto">
+    <form onSubmit={handleSubmit} className="space-y-6 border border-slate-500 p-6 md:w-[50%] sm:w-[100%] rounded-lg shadow-md mx-auto">
       <div>
-        <label className="block text-sm font-medium text-gray-700">Name</label>
+        <label className="block text-sm font-medium  ">Name</label>
         <input
           type="text"
           value={name}
@@ -46,7 +67,7 @@ const AddEditItemForm: React.FC<AddEditItemFormProps> = ({ item = {}, onSave, on
         />
       </div>
       <div>
-        <label className="block text-sm font-medium text-gray-700">Quantity</label>
+        <label className="block text-sm font-medium">Quantity</label>
         <input
           type="number"
           value={quantity}
@@ -54,6 +75,21 @@ const AddEditItemForm: React.FC<AddEditItemFormProps> = ({ item = {}, onSave, on
           className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm border p-2"
           required
         />
+      </div>
+      <div>
+        <label className="block text-sm font-medium">Category</label> {/* Added category dropdown */}
+        <select
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm border p-2"
+          required
+        >
+          {categoryOptions.map((option) => (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          ))}
+        </select>
       </div>
       <div>
         <label className="block text-sm font-medium text-gray-700">Image</label>

@@ -67,18 +67,22 @@ const Pantry = () => {
     setEditingItem(null);
   };
 
+  
   return (
     <DashboardLayout>
-      <h1 className="text-3xl font-bold mb-6 text-center">
+      <div className=" flex justify-between items-center">
+
+      <h1 className="text-3xl font-bold text-center py-8">
         Pantry Management
       </h1>
       
       <button
         onClick={() => setEditingItem({ name: "", quantity: 0, image: "" })}
-        className="mb-6 absolute px-4 py-2 bg-blue-500 text-white rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 w-[15%] top-[4%] right-[5%]"
+        className="bg-gradient-to-br from-blue-300 to-purple-600 px-5 py-3 rounded-xl hover:from-purple-300 hover:to-purple-600 transition ease-in-out duration-200 font-bold"
       >
         Add New Item
       </button>
+      </div>
 
       {editingItem ? (
         <AddEditItemForm

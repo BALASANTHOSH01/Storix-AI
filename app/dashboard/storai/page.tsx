@@ -24,14 +24,14 @@ const Storai = () => {
 
   return (
     <DashboardLayout>
-      <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-gray-100">
+      <div className="flex flex-col items-center justify-center min-h-screen p-4">
         <h1 className="text-xl font-bold mb-4">Capture or Upload Your Image</h1>
-        <div className="w-full max-w-sm bg-white shadow-md rounded-lg p-4">
+        <div className="w-full max-w-sm shadow-md rounded-lg p-4">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-lg font-semibold">Camera Capture</h2>
             <button
               onClick={() => setCameraActive((prev) => !prev)}
-              className="bg-blue-500 text-white px-3 py-1 rounded"
+              className="bg-blue-500 px-3 py-1 rounded"
             >
               {cameraActive ? 'Close Camera' : 'Open Camera'}
             </button>
@@ -39,8 +39,7 @@ const Storai = () => {
           {cameraActive ? (
             <Camera
               onCapture={handleCapture}
-              onError={(error) => console.error('Camera error:', error)}
-              className="w-full h-60 border border-gray-300 rounded"
+              className="w-full h-60 border border-gray-500 rounded"
               captureButtonText="Take Photo" // Add capture button text if needed
             />
           ) : (

@@ -7,6 +7,7 @@ interface Item {
   id: string;
   name: string;
   quantity: number;
+  category: string; // Added category field
   image?: string;
 }
 
@@ -18,14 +19,30 @@ interface InventoryListProps {
 
 const InventoryList: React.FC<InventoryListProps> = ({ items, onEdit, onDelete }) => {
   return (
-    <div className="space-y-4">
+    <div className=" flex gap-6 flex-wrap">
       {items.map((item) => (
-        <div key={item.id} className="flex items-center justify-between p-4 border rounded-md shadow-sm">
-          <div className="flex items-center space-x-4">
-            {item.image && <Image src={item.image} alt={item.name} width={64} height={64} className="w-16 h-16 object-cover rounded-md" />}
+        <div key={item.id} className="flex flex-col items-start justify-center p-8 border border-slate-500 rounded-md shadow-sm">
+          <p className="text-sm py-1 px-3 rounded-full text-darkmode mb-2 bg-gradient-to-r from-green-400 to-green-600">{item.category}</p>
+          <div className="flex flex-col items-start">
+            {item.image ? (
+              <Image 
+                src={item.image} 
+                alt={item.name} 
+                width={64} 
+                height={64} 
+                className="w-[200px] h-64 object-cover rounded-md" 
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = '/path/to/default/image.png'; // Fallback image
+                }}
+              />
+            ) : (
+              <div className="w-[200px] h-64 bg-gray-200 rounded-md flex items-center justify-center text-gray-500">
+                No Image
+              </div>
+            )}
             <div>
-              <h3 className="text-lg font-semibold">{item.name}</h3>
-              <p className="text-sm text-gray-600">Quantity: {item.quantity}</p>
+              <h3 className="text-2xl font-semibold capitalize py-2">{item.name}</h3>
+              <p className="text-sm text-gray-600 py-2">Quantity: {item.quantity}</p>
             </div>
           </div>
           <div className="flex space-x-2">
