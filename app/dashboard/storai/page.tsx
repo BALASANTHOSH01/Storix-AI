@@ -2,25 +2,24 @@
 
 import DashboardLayout from '@/components/Dashboard/DashboardLayout';
 import React, { useState } from 'react';
-import { Camera } from 'react-camera-pro';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation'; // Use next/navigation for programmatic navigation
+import Webcam from 'react-webcam';
+import { useRouter } from 'next/navigation'; 
 
 const Storai = () => {
   const [imageSrc, setImageSrc] = useState<string | null>(null);
   const [cameraActive, setCameraActive] = useState<boolean>(false);
-  const router = useRouter(); // Initialize useRouter
+  const router = useRouter(); 
 
-  const handleCapture = (blob: Blob) => {
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setImageSrc(reader.result as string);
-      // Redirect to another page after capturing the image
-      router.push('/dashboard/storai'); // Adjust this route as needed
-    };
-    reader.readAsDataURL(blob);
+  const capture = () => {
+    const screenshot = webcamRef.current?.getScreenshot();
+    if (screenshot) {
+      setImageSrc(screenshot);
+      router.push('/dashboard/storai'); 
+    }
     setCameraActive(false);
   };
+
+  const webcamRef = React.useRef<Webcam>(null);
 
   return (
     <DashboardLayout>
@@ -31,25 +30,34 @@ const Storai = () => {
             <h2 className="text-lg font-semibold">Camera Capture</h2>
             <button
               onClick={() => setCameraActive((prev) => !prev)}
-              className="bg-blue-500 px-3 py-1 rounded"
+              className="bg-blue-500 text-white px-3 py-1 rounded"
             >
               {cameraActive ? 'Close Camera' : 'Open Camera'}
             </button>
           </div>
           {cameraActive ? (
-            <Camera
-              onCapture={handleCapture}
-              className="w-full h-60 border border-gray-500 rounded"
-              captureButtonText="Take Photo" // Add capture button text if needed
-            />
+            <div className="w-full relative h-60 border border-gray-500 rounded flex justify-center items-center">
+              <Webcam
+                audio={false}
+                ref={webcamRef}
+                screenshotFormat="image/jpeg"
+                width="100%"
+                height="100%"
+              />
+              <button
+                onClick={capture}
+                className="absolute bottom-4 right-4 bg-blue-500 text-white px-3 py-1 rounded"
+              >
+                Capture
+              </button>
+            </div>
           ) : (
             <div className="relative w-full h-60 border border-gray-300 rounded overflow-hidden">
               {imageSrc ? (
-                <Image
+                <img
                   src={imageSrc}
                   alt="Captured"
-                  layout="fill"
-                  objectFit="cover"
+                  className="object-cover w-full h-full"
                 />
               ) : (
                 <div className="flex items-center justify-center h-full text-gray-500">
