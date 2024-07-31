@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ReactNode } from "react";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase/config";
+import UserProfile from "../User/UserProfile"; // Import the UserProfile component
 
 const DashboardLayout = ({ children }: { children: ReactNode }) => {
   const handleSignOut = async () => {
@@ -19,19 +20,40 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <div className="flex h-screen">
-      <aside className="w-64 bg-gray-800 text-white">
-        <div className="p-4">
+    <div className="flex h-screen bg-gray-100">
+      <aside className="w-64 bg-gray-800 text-white flex flex-col">
+        <div className="p-4 flex-shrink-0">
           <h2 className="text-xl font-bold">Storix AI</h2>
           <nav className="mt-6">
-            <ul>
-              <li><Link href="/dashboard/pantry" className="block p-4 hover:bg-gray-700">Pantry</Link></li>
-              <li><Link href="/dashboard/inventory" className="block p-4 hover:bg-gray-700">Inventory</Link></li>
-              <li><Link href="/dashboard/reports" className="block p-4 hover:bg-gray-700">Reports</Link></li>
+            <ul className="space-y-1">
+              <li>
+                <Link
+                  href="/dashboard/pantry"
+                  className="block p-4 hover:bg-gray-700 rounded"
+                >
+                  Pantry
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/dashboard/inventory"
+                  className="block p-4 hover:bg-gray-700 rounded"
+                >
+                  Inventory
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/dashboard/reports"
+                  className="block p-4 hover:bg-gray-700 rounded"
+                >
+                  Reports
+                </Link>
+              </li>
               <li>
                 <button
                   onClick={handleSignOut}
-                  className="w-full p-4 text-left hover:bg-gray-700"
+                  className="w-full p-4 text-left hover:bg-gray-700 rounded"
                 >
                   Sign Out
                 </button>
@@ -39,10 +61,14 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
             </ul>
           </nav>
         </div>
+
+        {/* Add margin-top auto to push the profile to the bottom */}
+        <div className="mt-auto p-4 border-t border-gray-700">
+          <UserProfile /> {/* Display user profile at the bottom */}
+        </div>
+        
       </aside>
-      <main className="flex-1 p-6">
-        {children}
-      </main>
+      <main className="flex-1 p-6">{children}</main>
     </div>
   );
 };
