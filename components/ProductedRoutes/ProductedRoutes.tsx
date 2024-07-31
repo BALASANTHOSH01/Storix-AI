@@ -1,8 +1,9 @@
-"use client"
+// components/ProtectedRoute.tsx
+"use client";
 
 import { useEffect, ReactNode } from "react";
-import { useRouter } from "next/router";
-import { auth } from "../../firebase/config";
+import { useRouter } from "next/navigation";
+import { auth } from "@/firebase/config";
 import { onAuthStateChanged } from "firebase/auth";
 
 interface ProtectedRouteProps {
@@ -11,10 +12,11 @@ interface ProtectedRouteProps {
 
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const router = useRouter();
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (!user) {
-        router.push("/");
+        router.push("/login");
       }
     });
     return () => unsubscribe();
