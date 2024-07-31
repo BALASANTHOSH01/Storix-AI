@@ -1,4 +1,3 @@
-// src/components/Pantry/PantryList.tsx
 import Image from 'next/image';
 import React from 'react';
 
@@ -20,10 +19,25 @@ const PantryList: React.FC<PantryListProps> = ({ items, onEdit, onDelete }) => {
     <div className="space-y-4">
       {items.map((item) => (
         <div key={item.id} className="flex items-center justify-between p-4 border rounded-md shadow-sm">
-          <div>
-            {item.image && <Image src={item.image} alt={item.name} className="w-16 h-16 object-cover rounded-md" />}
-            <h3 className="text-lg font-semibold">{item.name}</h3>
-            <p className="text-sm text-gray-600">Quantity: {item.quantity}</p>
+          <div className="flex items-center space-x-4">
+            {item.image && (
+              <Image 
+                src={item.image} 
+                alt={item.name} 
+                width={64} 
+                height={64} 
+                className="w-16 h-16 object-cover rounded-md" 
+                
+                // Ensure you handle different image formats or broken URLs
+                onError={(e) => {
+                  e.currentTarget.src = '/path/to/default/image.png'; // Fallback image
+                }}
+              />
+            )}
+            <div>
+              <h3 className="text-lg font-semibold">{item.name}</h3>
+              <p className="text-sm text-gray-600">Quantity: {item.quantity}</p>
+            </div>
           </div>
           <div className="flex space-x-2">
             <button

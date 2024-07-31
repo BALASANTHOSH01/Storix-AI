@@ -1,3 +1,5 @@
+"use client";
+
 import Image from 'next/image';
 import React, { useState } from 'react';
 
@@ -5,7 +7,7 @@ interface Item {
   id?: string;
   name: string;
   quantity: number;
-  image?: string; // Optional field for image URL
+  image?: string;
 }
 
 interface AddEditItemFormProps {
@@ -22,7 +24,7 @@ const AddEditItemForm: React.FC<AddEditItemFormProps> = ({ item = {}, onSave, on
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSave({ id: item.id, name, quantity, image }, imageFile);
+    onSave({ name, quantity, image }, imageFile);
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {

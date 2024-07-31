@@ -1,11 +1,16 @@
 "use client";
 
-import { useEffect, useState } from 'react';
-import DashboardLayout from '@/components/Dashboard/DashboardLayout';
-import InventoryList from '@/components/Inventory/InventoryList';
-import AddEditItemForm from '@/components/AddEditItemForm';
-import { fetchInventoryItems, addInventoryItem, updateInventoryItem, deleteInventoryItem } from '@/services/inventoryService';
-import { uploadImage } from '@/services/storageService';
+import { useEffect, useState } from "react";
+import DashboardLayout from "@/components/Dashboard/DashboardLayout";
+import InventoryList from "@/components/Inventory/InventoryList";
+import AddEditItemForm from "@/components/AddEditItemForm";
+import {
+  fetchInventoryItems,
+  addInventoryItem,
+  updateInventoryItem,
+  deleteInventoryItem,
+} from "@/services/inventoryService";
+import { uploadImage } from "@/services/storageService";
 
 const Inventory = () => {
   const [inventoryItems, setInventoryItems] = useState<any[]>([]);
@@ -50,22 +55,29 @@ const Inventory = () => {
 
   return (
     <DashboardLayout>
-      <h1 className="text-3xl font-bold mb-6">Inventory Management</h1>
-      {editingItem ? (
+      <h1 className="text-3xl font-bold mb-6 text-center">
+        Inventory Management
+      </h1>
+      
+      <button
+        onClick={() => setEditingItem({ name: "", quantity: 0, image: "" })}
+        className="mb-6 absolute px-4 py-2 bg-blue-500 text-white rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 w-[15%] top-[4%] right-[5%]"
+      >
+        Add New Item
+      </button>
+
+      {editingItem && (
         <AddEditItemForm
           item={editingItem}
           onSave={handleSave}
           onCancel={handleCancel}
         />
-      ) : (
-        <button
-          onClick={() => setEditingItem({ name: '', quantity: 0, image: '' })}
-          className="mb-6 px-4 py-2 bg-blue-500 text-white rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-        >
-          Add New Item
-        </button>
       )}
-      <InventoryList items={inventoryItems} onEdit={setEditingItem} onDelete={handleDelete} />
+      <InventoryList
+        items={inventoryItems}
+        onEdit={setEditingItem}
+        onDelete={handleDelete}
+      />
     </DashboardLayout>
   );
 };

@@ -3,13 +3,15 @@ import { collection, getDocs, doc, setDoc, deleteDoc } from "firebase/firestore"
 
 // Fetch pantry items
 export const fetchPantryItems = async () => {
-  const pantryRef = collection(firestore, "pantryItems");
-  const pantrySnapshot = await getDocs(pantryRef);
-  return pantrySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+  const pantryCollection = collection(firestore, 'pantryItems');
+  const snapshot = await getDocs(pantryCollection);
+  const items = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  return items;
 };
 
 // Add a new pantry item
 export const addPantryItem = async (item: any) => {
+  console.log("given details :"+item);
   const newDocRef = doc(collection(firestore, "pantryItems"));
   await setDoc(newDocRef, item);
   return { id: newDocRef.id, ...item };
