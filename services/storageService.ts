@@ -22,7 +22,7 @@ export const uploadImage = async (file: File): Promise<string> => {
 
     return url;
   } catch (error) {
-    console.error("Error uploading image:", error.message);
+    console.error("Error uploading image:", error);
     throw new Error("Image upload failed.");
   }
 };
