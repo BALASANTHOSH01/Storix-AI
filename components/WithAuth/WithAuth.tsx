@@ -1,3 +1,5 @@
+'use client'
+
 import { NextPage, NextPageContext } from 'next';
 import { getAuth, getRedirectResult, Auth } from 'firebase/auth';
 import { NextApiRequest, NextApiResponse } from 'next';
