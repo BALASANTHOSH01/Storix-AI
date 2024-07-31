@@ -1,5 +1,5 @@
 import { NextPage, NextPageContext } from 'next';
-import { getAuth, getRedirectResult } from 'firebase/auth';
+import { getAuth, getRedirectResult, Auth } from 'firebase/auth';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { auth } from '@/firebase/config'; // Import your existing auth instance
 
@@ -15,13 +15,14 @@ export function withAuth<P>(WrappedComponent: NextPage<P>) {
   Wrapper.getServerSideProps = async (context: NextPageContext) => {
     const { req, res } = context;
     const authInstance = getAuth();
-
+    
     try {
       // Handle Firebase authentication redirects if needed
       await getRedirectResult(authInstance);
 
       // Check for authentication on server-side
       const token = await authInstance.currentUser?.getIdToken();
+      
       if (!token) {
         // If no token, redirect to login page
         return {
