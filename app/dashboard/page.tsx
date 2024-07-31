@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import DashboardLayout from "@/components/Dashboard/DashboardLayout";
 import { useEffect, useState } from "react";
 import { auth } from "../../firebase/config";
@@ -13,6 +13,14 @@ import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Toolti
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement);
 
+interface Item {
+  id: string;
+  name: string;
+  quantity: number;
+  category: string; // Ensure category is included here
+  image?: string;
+}
+
 const DashboardHome = () => {
   const router = useRouter();
   const [user, setUser] = useState<any>(null);
@@ -20,6 +28,7 @@ const DashboardHome = () => {
   const [inventoryItemsCount, setInventoryItemsCount] = useState<number>(0);
   const [pantryCategories, setPantryCategories] = useState<{ [key: string]: number }>({});
   const [inventoryCategories, setInventoryCategories] = useState<{ [key: string]: number }>({});
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -41,19 +50,21 @@ const DashboardHome = () => {
       setPantryItemsCount(pantryItems.length);
       setInventoryItemsCount(inventoryItems.length);
 
-      const pantryCategoryCount = pantryItems.reduce((acc, item) => {
+      // Type assertion to specify item structure
+      const pantryCategoryCount = (pantryItems as Item[]).reduce((acc, item) => {
         acc[item.category] = (acc[item.category] || 0) + 1;
         return acc;
       }, {} as { [key: string]: number });
       setPantryCategories(pantryCategoryCount);
 
-      const inventoryCategoryCount = inventoryItems.reduce((acc, item) => {
+      const inventoryCategoryCount = (inventoryItems as Item[]).reduce((acc, item) => {
         acc[item.category] = (acc[item.category] || 0) + 1;
         return acc;
       }, {} as { [key: string]: number });
       setInventoryCategories(inventoryCategoryCount);
 
     } catch (error) {
+      setError("Error fetching data");
       console.error("Error fetching data", error);
     }
   };
@@ -96,18 +107,37 @@ const DashboardHome = () => {
     <ProtectedRoute>
       <DashboardLayout>
         <h1 className="text-3xl font-bold">Dashboard</h1>
+        {error && <p className="text-red-500">{error}</p>}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
           <ReportCard title="Total Pantry Items" value={pantryItemsCount.toString()} />
           <ReportCard title="Total Inventory" value={inventoryItemsCount.toString()} />
         </div>
-        <div className="mt-8 flex  gap-6">
-          <div className="p-4  rounded shadow w-[50%]">
+        <div className="mt-8 flex gap-6">
+          <div className="p-4 rounded shadow w-[50%]">
             <h2 className="text-xl font-semibold mb-4">Pantry Categories</h2>
-            <Pie data={pantryChartData} options={{ responsive: true, plugins: { legend: { position: 'top' }, title: { display: true, text: 'Pantry Categories' } } }} />
+            <Pie
+              data={pantryChartData}
+              options={{
+                responsive: true,
+                plugins: {
+                  legend: { position: 'top' },
+                  title: { display: true, text: 'Pantry Categories' },
+                },
+              }}
+            />
           </div>
           <div className="p-4 rounded-lg shadow w-[50%]">
             <h2 className="text-xl font-semibold mb-4">Inventory Categories</h2>
-            <Bar data={inventoryChartData} options={{ responsive: true, plugins: { legend: { position: 'top' }, title: { display: true, text: 'Inventory Categories' } } }} />
+            <Bar
+              data={inventoryChartData}
+              options={{
+                responsive: true,
+                plugins: {
+                  legend: { position: 'top' },
+                  title: { display: true, text: 'Inventory Categories' },
+                },
+              }}
+            />
           </div>
         </div>
       </DashboardLayout>
