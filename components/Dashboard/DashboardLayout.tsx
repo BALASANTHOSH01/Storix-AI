@@ -5,6 +5,7 @@ import { ReactNode } from "react";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase/config";
 import UserProfile from "../User/UserProfile"; // Import the UserProfile component
+import { HiMiniViewfinderCircle as AIIcon } from "react-icons/hi2";
 
 const DashboardLayout = ({ children }: { children: ReactNode }) => {
   const handleSignOut = async () => {
@@ -51,6 +52,15 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
                 </Link>
               </li>
               <li>
+                <Link
+                  href="/dashboard/storai"
+                  className="p-4 hover:bg-gray-700 rounded flex flex-row items-center gap-3"
+                >
+                  <p>Storai</p>
+                  <AIIcon />
+                </Link>
+              </li>
+              <li>
                 <button
                   onClick={handleSignOut}
                   className="w-full p-4 text-left hover:bg-gray-700 rounded"
@@ -66,9 +76,8 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
         <div className="mt-auto p-4 border-t border-gray-700">
           <UserProfile /> {/* Display user profile at the bottom */}
         </div>
-        
       </aside>
-      <main className="flex-1 p-6">{children}</main>
+      <main className="flex-1 p-6 overflow-auto">{children}</main>
     </div>
   );
 };
