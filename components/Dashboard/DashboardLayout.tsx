@@ -49,7 +49,7 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
   return (
     <div className="flex h-screen">
       <aside
-        className={`transition-all duration-300 lg:hidden ease-in-out border-r border-slate-600 rounded-r-2xl ${
+        className={`transition-all duration-300 pl-2 lg:hidden ease-in-out border-r border-slate-600 rounded-r-2xl ${
           isExpanded ? "w-[20%]" : "w-[5%]"
         } dark:bg-gray-950 bg-slate-200 flex flex-col group`}
         onMouseEnter={() => setIsExpanded(true)}
@@ -66,37 +66,37 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
             <li className=" text-2xl p-4 md:hidden">
               <Themer />
             </li>
-            <li>
+            <li className=" hover:bg-slate-300 dark:hover:bg-slate-900 rounded-lg">
               <Link
                 href="/dashboard"
-                className="block p-4 rounded flex items-center gap-3"
+                className="block p-4 flex items-center gap-3 "
               >
                 <Dashboard />
                 {isExpanded && <span>Dashboard</span>}
               </Link>
             </li>
-            <li>
+            <li className=" hover:bg-slate-300 dark:hover:bg-slate-900 rounded-lg">
               <Link
                 href="/dashboard/pantry"
-                className="block p-4 rounded flex items-center gap-3"
+                className="block p-4 flex items-center gap-3"
               >
                 <FaClipboardList />
                 {isExpanded && <span>Pantry</span>}
               </Link>
             </li>
-            <li>
+            <li className=" hover:bg-slate-300 dark:hover:bg-slate-900 rounded-lg">
               <Link
                 href="/dashboard/inventory"
-                className="block p-4 rounded flex items-center gap-3"
+                className="block p-4 flex items-center gap-3"
               >
                 <FaBox />
                 {isExpanded && <span>Inventory</span>}
               </Link>
             </li>
-            <li>
+            <li className=" hover:bg-slate-300 dark:hover:bg-slate-900 rounded-lg">
               <Link
                 href="/dashboard/storai"
-                className=" p-4 rounded flex items-center gap-3"
+                className=" p-4 flex items-center gap-3 "
               >
                 <AIIcon />
                 {isExpanded && <span>Storai</span>}

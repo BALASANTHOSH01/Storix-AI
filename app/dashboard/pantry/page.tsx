@@ -5,28 +5,32 @@ import DashboardLayout from "@/components/Dashboard/DashboardLayout";
 import PantryList from "@/components/Pantry/PantryList";
 import AddEditItemForm from "@/components/AddEditItemForm";
 import {
-  fetchPantryItems,
+  fetchPantryItemsForUser,
   addPantryItem,
   updatePantryItem,
   deletePantryItem,
 } from "@/services/pantryServices";
 import { uploadImage } from "@/services/storageService";
+import { useAuth } from "@/hooks/useAuth"; 
 
 const Pantry = () => {
+  const { user } = useAuth(); // Assuming user object has userId property
   const [pantryItems, setPantryItems] = useState<any[]>([]);
   const [editingItem, setEditingItem] = useState<any | null>(null); // Ensure editingItem is either null or an item
 
   useEffect(() => {
     const getItems = async () => {
-      try {
-        const items = await fetchPantryItems();
-        setPantryItems(items);
-      } catch (error) {
-        console.error("Failed to fetch pantry items:", error);
+      if (user) {
+        try {
+          const items = await fetchPantryItemsForUser();
+          setPantryItems(items);
+        } catch (error) {
+          console.error("Failed to fetch pantry items:", error);
+        }
       }
     };
     getItems();
-  }, []);
+  }, [user]);
 
   const handleSave = async (item: any, imageFile: File | null) => {
     try {
@@ -46,7 +50,7 @@ const Pantry = () => {
       }
 
       setEditingItem(null);
-      const items = await fetchPantryItems();
+      const items = await fetchPantryItemsForUser();
       setPantryItems(items);
     } catch (error) {
       console.error("Failed to save pantry item:", error);
@@ -56,7 +60,7 @@ const Pantry = () => {
   const handleDelete = async (id: string) => {
     try {
       await deletePantryItem(id);
-      const items = await fetchPantryItems();
+      const items = await fetchPantryItemsForUser();
       setPantryItems(items);
     } catch (error) {
       console.error("Failed to delete pantry item:", error);
@@ -69,7 +73,7 @@ const Pantry = () => {
 
   return (
     <DashboardLayout>
-      <div className=" flex justify-between md:flex-col items-center lg:py-10">
+      <div className="flex justify-between md:flex-col items-center lg:py-10">
         <h1 className="text-3xl font-bold text-center py-8">
           Pantry Management
         </h1>
@@ -82,7 +86,7 @@ const Pantry = () => {
         </button>
       </div>
 
-      <div className=" pb-20">
+      <div className="pb-20">
         {editingItem ? (
           <AddEditItemForm
             item={editingItem}

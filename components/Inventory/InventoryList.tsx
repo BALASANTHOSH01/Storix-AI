@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
-import Image from 'next/image';
-import { fetchPantryItems } from '@/services/pantryServices';
-import Tooltip from '../Tooltip/ToolTip';
+import React, { useState, useEffect } from "react";
+import Image from "next/image";
+import { fetchPantryItemsForUser } from "@/services/pantryServices"; // Adjust path if necessary
+import Tooltip from "../Tooltip/ToolTip";
 
 interface Item {
   id?: string;
@@ -33,19 +33,23 @@ const categoryOptions = [
   "Spices",
   "Personal Care",
   "Cleaning Supplies",
-  "Other"
+  "Other",
 ];
 
 const InventoryList: React.FC = () => {
   const [items, setItems] = useState<Item[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<string>('All');
+  const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [filterExpiresSoon, setFilterExpiresSoon] = useState<boolean>(false);
-  const [storageLocation, setStorageLocation] = useState<string>('');
+  const [storageLocation, setStorageLocation] = useState<string>("");
 
   useEffect(() => {
     const loadItems = async () => {
-      const pantryItems = await fetchPantryItems();
-      setItems(pantryItems as Item[]); 
+      try {
+        const pantryItems = await fetchPantryItemsForUser();
+        setItems(pantryItems as Item[]);
+      } catch (error) {
+        console.error("Error fetching pantry items:", error);
+      }
     };
 
     loadItems();
@@ -59,15 +63,27 @@ const InventoryList: React.FC = () => {
     setFilterExpiresSoon(e.target.checked);
   };
 
-  const handleStorageLocationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleStorageLocationChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setStorageLocation(e.target.value);
   };
 
   const filterItems = () => {
-    return items.filter(item => {
-      const isCategoryMatch = selectedCategory === 'All' || item.category === selectedCategory;
-      const isExpirationSoon = !filterExpiresSoon || (item.expirationDate && new Date(item.expirationDate) < new Date(new Date().setDate(new Date().getDate() + 7)));
-      const isStorageMatch = !storageLocation || (item.storageLocation && item.storageLocation.toLowerCase().includes(storageLocation.toLowerCase()));
+    return items.filter((item) => {
+      const isCategoryMatch =
+        selectedCategory === "All" || item.category === selectedCategory;
+      const isExpirationSoon =
+        !filterExpiresSoon ||
+        (item.expirationDate &&
+          new Date(item.expirationDate) <
+            new Date(new Date().setDate(new Date().getDate() + 7)));
+      const isStorageMatch =
+        !storageLocation ||
+        (item.storageLocation &&
+          item.storageLocation
+            .toLowerCase()
+            .includes(storageLocation.toLowerCase()));
       return isCategoryMatch && isExpirationSoon && isStorageMatch;
     });
   };
@@ -84,7 +100,7 @@ const InventoryList: React.FC = () => {
             className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm border p-2"
           >
             <option value="All">All</option>
-            {categoryOptions.map(option => (
+            {categoryOptions.map((option) => (
               <option key={option} value={option}>
                 {option}
               </option>
@@ -115,39 +131,58 @@ const InventoryList: React.FC = () => {
       </div>
 
       {/* Item List */}
-      <div className=" flex gap-6 flex-wrap lg:flex-col items-center pb-20">
-        {filterItems().map(item => (
-          <div key={item.id} className="flex flex-col items-start justify-center p-8 border border-slate-500 rounded-md shadow-sm  w-[20%] lg:w-[90%]">
+      <div className=" flex gap-6 flex-wrap lg:flex-col items-center">
+        {filterItems().map((item) => (
+          <div
+            key={item.id}
+            className="flex flex-col items-start justify-center p-8 border border-slate-500 rounded-md shadow-sm w-[25%] lg:w-[90%]"
+          >
+            <p className="text-sm py-1 px-3 rounded-full text-darkmode mb-2 bg-gradient-to-r from-green-400 to-green-600">
+              {item.category}
+            </p>
             {item.image ? (
               <Tooltip title={item.name}>
-              <Image 
-                src={item.image} 
-                alt={item.name} 
-                width={64}
-                height={64}
-                className=" w-[600px] h-64 object-cover rounded-md" 
-                onError={(e) => {
-                  (e.target as HTMLImageElement).src = '/path/to/default/image.png'; // Fallback image
-                }}
+                <Image
+                  src={item.image}
+                  alt={item.name}
+                  width={64}
+                  height={64}
+                  className="w-[600px] h-64 object-cover rounded-md"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src =
+                      "/path/to/default/image.png"; // Fallback image
+                  }}
                 />
-                </Tooltip>
+              </Tooltip>
             ) : (
-              <div className="">
-                <Tooltip title={'Random Alt Image'}>
-                <img src="https://picsum.photos/256/" width={64} 
-                height={64} alt='random' className=' w-[600px] h-64 object-cover rounded-md'/>
-                </Tooltip>
-              </div>
+              <Tooltip title={"Random Alt Image"}>
+                <img
+                  src="https://picsum.photos/256/"
+                  width={64}
+                  height={64}
+                  alt="random"
+                  className="w-[600px] h-64 object-cover rounded-md"
+                />
+              </Tooltip>
             )}
-            <h3 className="text-2xl font-semibold capitalize py-2">{item.name}</h3>
-            <p className="text-sm text-gray-600 py-2">Category: {item.category}</p>
-            <p className="text-sm text-gray-600 py-2">Quantity: {item.quantity}</p>
-            <p className="text-sm text-gray-600 py-2">Price: ${item.price.toFixed(2)}</p>
+            <h3 className="text-2xl font-semibold capitalize py-2">
+              {item.name}
+            </h3>
+            <p className="text-sm text-gray-600 py-2">
+              Quantity: {item.quantity}
+            </p>
+            <p className="text-sm text-gray-600 py-2">
+              Price: ${item.price.toFixed(2)}
+            </p>
             {item.expirationDate && (
-              <p className="text-sm text-gray-600">Expires: {new Date(item.expirationDate).toLocaleDateString()}</p>
+              <p className="text-sm text-gray-600 py-2">
+                Expires: {new Date(item.expirationDate).toLocaleDateString()}
+              </p>
             )}
             {item.storageLocation && (
-              <p className="text-sm text-gray-600 py-2">Location: {item.storageLocation}</p>
+              <p className="text-sm text-gray-600 py-2">
+                Location: {item.storageLocation}
+              </p>
             )}
             {item.notes && (
               <p className="text-sm text-gray-600 py-2">Notes: {item.notes}</p>

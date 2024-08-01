@@ -22,51 +22,54 @@ interface PantryListProps {
 
 const PantryList: React.FC<PantryListProps> = ({ items, onEdit, onDelete }) => {
   return (
-    <div className=" flex gap-6 flex-wrap lg:flex-col items-center">
+    <div className="flex gap-6 flex-wrap lg:flex-col items-center">
       {items.map((item) => (
-        <div key={item.id} className="flex flex-col items-start justify-center p-8 border border-slate-500 rounded-md shadow-sm  w-[20%] lg:w-[90%]">
+        <div key={item.id} className="flex flex-col items-start justify-center p-8 border border-slate-500 rounded-md shadow-sm w-[25%] lg:w-[90%]">
           <p className="text-sm py-1 px-3 rounded-full text-darkmode mb-2 bg-gradient-to-r from-green-400 to-green-600">{item.category}</p>
-          <div className="flex flex-col items-start z-0">
+          <div className="flex flex-col items-start">
             {item.image ? (
               <Tooltip title={item.name}>
-              <Image 
-                src={item.image} 
-                alt={item.name} 
-                width={64} 
-                height={64} 
-                className=" w-[600px] h-64 object-cover rounded-md" 
-                onError={(e) => {
-                  (e.target as HTMLImageElement).src = '/path/to/default/image.png'; // Fallback image
-                }}
+                <Image 
+                  src={item.image} 
+                  alt={item.name} 
+                  width={64} 
+                  height={64} 
+                  className="w-[600px] h-64 object-cover rounded-md" 
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = '/path/to/default/image.png'; // Fallback image
+                  }}
                 />
-                </Tooltip>
+              </Tooltip>
             ) : (
-              <div className="">
-                <Tooltip title={'Random Alternative Picture'}>
-                <img src="https://picsum.photos/256/" width={64} 
-                height={64} alt='random' className=' w-[600px] h-64 object-cover rounded-md'/>
-                </Tooltip>
-              </div>
+              <Tooltip title={'Random Alt Image'}>
+                <img 
+                  src="https://picsum.photos/256/" 
+                  width={64} 
+                  height={64} 
+                  alt='random' 
+                  className='w-[600px] h-64 object-cover rounded-md'
+                />
+              </Tooltip>
             )}
-            <div>
+            <div className="mt-4">
               <h3 className="text-2xl font-semibold capitalize py-2">{item.name}</h3>
               <p className="text-sm text-gray-600 py-2">Quantity: {item.quantity}</p>
-              <p className="text-sm text-gray-600 py-2">Price: {item.price}</p>
-              <p className="text-sm text-gray-600 py-2">Expiration Date: {item.expirationDate}</p>
-              <p className="text-sm text-gray-600 py-2">Storage Location: {item.storageLocation}</p>
-              <p className="text-sm text-gray-600 py-2"> {item.notes}</p>
+              <p className="text-sm text-gray-600 py-2">Price: ${item.price.toFixed(2)}</p>
+              <p className="text-sm text-gray-600 py-2">Expiration Date: {item.expirationDate || 'N/A'}</p>
+              <p className="text-sm text-gray-600 py-2">Location: {item.storageLocation || 'N/A'}</p>
+              <p className="text-sm text-gray-600 py-2">{item.notes || 'No notes'}</p>
             </div>
           </div>
-          <div className="flex justify-end gap-4 w-full">
+          <div className="flex justify-end gap-4 w-full mt-4">
             <button
               onClick={() => onEdit(item)}
-              className="px-4 py-2 bg-yellow-500 text-white rounded-md"
+              className="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600"
             >
               Edit
             </button>
             <button
-              onClick={() => item.id && onDelete(item.id)}
-              className="px-4 py-2 bg-red-500 text-white rounded-md"
+              onClick={() => onDelete(item.id!)}
+              className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
             >
               Delete
             </button>
