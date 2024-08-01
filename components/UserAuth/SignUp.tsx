@@ -1,12 +1,13 @@
 import { useState, ChangeEvent, FC } from "react";
 import { signUpWithEmail } from "@/services/authService";
 import { Toaster, toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 
 const SignUpForm: FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [username, setUsername] = useState<string>("");
-
+  const router = useRouter();
 
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setEmail(e.target.value);
@@ -23,11 +24,10 @@ const SignUpForm: FC = () => {
   const handleSignUp = async (): Promise<void> => {
     try {
       await signUpWithEmail(email, password, username);
-      toast.success("Signup successfully...redirected to dashboard!");
-
+      toast.success("Signup successful...redirecting to dashboard!");
+      router.push('/dashboard');
     } catch (error) {
-      toast.error("Unable to signup...please check after sometime!");
-
+      toast.error("Unable to sign up...please check after some time!");
     }
   };
 

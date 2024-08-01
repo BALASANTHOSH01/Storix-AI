@@ -5,10 +5,12 @@ import {
   logout,
 } from "@/services/authService";
 import { Toaster, toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 
 const SignInForm: FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const router = useRouter();
 
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setEmail(e.target.value);
@@ -21,11 +23,10 @@ const SignInForm: FC = () => {
   const handleSignIn = async (): Promise<void> => {
     try {
       await signInWithEmail(email, password);
-      toast.success("Signin successfully...redirected to dashboard!");
-
+      toast.success("Signed in successfully...redirecting to dashboard!");
+      router.push('/dashboard'); // Redirect to dashboard
     } catch (error) {
-      toast.success("Unable to signup...please check the credentials!");
-
+      toast.error("Unable to sign in...please check the credentials!");
     }
   };
 
@@ -34,8 +35,7 @@ const SignInForm: FC = () => {
   };
 
   return (
-    <div className="flex justify-center items-center ">
-      
+    <div className="flex justify-center items-center">
       <div className="w-full max-w-md p-8 space-y-6">
         <button
           onClick={signInWithGoogle}
@@ -103,7 +103,7 @@ const SignInForm: FC = () => {
           Sign In
         </button>
       </div>
-      <Toaster richColors position="top-center"  />
+      <Toaster richColors position="top-center" />
     </div>
   );
 };
