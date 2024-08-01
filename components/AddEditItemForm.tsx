@@ -10,7 +10,7 @@ interface Item {
   category: string;
   price: number;
   image?: string;
-  expirationDate?: string;
+  expirationDate?: any;
   storageLocation?: string;
   notes?: string;
 }
@@ -42,8 +42,8 @@ const categoryOptions = [
 
 const AddEditItemForm: React.FC<AddEditItemFormProps> = ({ item = {}, onSave, onCancel }) => {
   const [name, setName] = useState(item.name || '');
-  const [quantity, setQuantity] = useState(item.quantity || '');
-  const [price, setPrice] = useState(item.price || '');
+  const [quantity, setQuantity] = useState(item.quantity || 0);
+  const [price, setPrice] = useState(item.price || 0);
   const [category, setCategory] = useState(item.category || categoryOptions[0]); // Default category
   const [image, setImage] = useState(item.image || '');
   const [imageFile, setImageFile] = useState<File | null>(null);
