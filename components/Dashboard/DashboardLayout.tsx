@@ -61,7 +61,7 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
             {isExpanded && <p className="font-bold text-2xl">Stroix AI</p>}
           </Link>
         </div>
-        <nav className=" flex items-center  justify-center font-semibold flex-grow">
+        <nav className=" flex items-center justify-center font-semibold flex-grow">
           <ul className="flex flex-col items-start w-full">
             <li className=" text-2xl p-4 md:hidden">
               <Themer />
@@ -124,7 +124,7 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
           {isExpanded && <span>Sign Out</span>}
         </button>
       </aside>
-      <div className=" fixed top-0 left-1/2 transform -translate-x-1/2 bg-slate-300 bg-opacity-30 dark:bg-slate-950 dark:bg-opacity-30 backdrop-blur-xl hidden lg:flex justify-between px-6 items-center w-full h-16 border-t border-gray-700 shadow-lg">
+      <div className=" fixed top-0 left-1/2 z-10 transform -translate-x-1/2 bg-slate-300 bg-opacity-30 dark:bg-slate-950 dark:bg-opacity-30 backdrop-blur-xl hidden lg:flex justify-between px-6 items-center w-full h-16 border-t border-gray-700 shadow-lg">
         <Link href={"/"} className=" flex items-center gap-1 justify-center">
           <Image src={StroixAI} width={40} alt="Stroix AI" />
           <p className=" font-bold text-2xl md:hidden">Stroix AI</p>
@@ -177,7 +177,7 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
           )}
         </div>
       </div>
-      <nav className="fixed bottom-0 left-1/2 transform -translate-x-1/2 bg-slate-300 bg-opacity-30 dark:bg-slate-950 dark:bg-opacity-30 backdrop-blur-xl hidden lg:flex justify-around items-center w-full h-16 border-t border-gray-700 shadow-lg">
+      <nav className="fixed bottom-0 z-10 left-1/2 transform -translate-x-1/2 bg-slate-300 bg-opacity-30 dark:bg-slate-950 dark:bg-opacity-30 backdrop-blur-xl hidden lg:flex justify-around items-center w-full h-16 border-t border-gray-700 shadow-lg">
         <ul className="flex justify-around items-center w-full">
           <li>
             <Tooltip title={"Dashboard"}>

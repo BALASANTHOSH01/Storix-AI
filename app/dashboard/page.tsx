@@ -7,7 +7,6 @@ import { onAuthStateChanged } from "firebase/auth";
 import ReportCard from "@/components/Report/ReportCard";
 import ProtectedRoute from "@/components/ProtectedRoutes/ProtectedRoutes";
 import { fetchPantryItems } from "@/services/pantryServices";
-import { fetchInventoryItems } from "@/services/inventoryService";
 import { Bar, Pie } from "react-chartjs-2";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement } from "chart.js";
 
@@ -45,10 +44,8 @@ const DashboardHome = () => {
   const loadData = async () => {
     try {
       const pantryItems = await fetchPantryItems();
-      const inventoryItems = await fetchInventoryItems();
 
       setPantryItemsCount(pantryItems.length);
-      setInventoryItemsCount(inventoryItems.length);
 
       // Type assertion to specify item structure
       const pantryCategoryCount = (pantryItems as Item[]).reduce((acc, item) => {
@@ -56,12 +53,6 @@ const DashboardHome = () => {
         return acc;
       }, {} as { [key: string]: number });
       setPantryCategories(pantryCategoryCount);
-
-      const inventoryCategoryCount = (inventoryItems as Item[]).reduce((acc, item) => {
-        acc[item.category] = (acc[item.category] || 0) + 1;
-        return acc;
-      }, {} as { [key: string]: number });
-      setInventoryCategories(inventoryCategoryCount);
 
     } catch (error) {
       setError("Error fetching data");
@@ -90,18 +81,7 @@ const DashboardHome = () => {
     ],
   };
 
-  const inventoryChartData = {
-    labels: Object.keys(inventoryCategories),
-    datasets: [
-      {
-        label: 'Inventory Categories',
-        data: Object.values(inventoryCategories),
-        backgroundColor: generateCategoryColors(Object.keys(inventoryCategories)),
-        borderColor: 'rgba(0, 0, 0, 0.1)',
-        borderWidth: 1,
-      },
-    ],
-  };
+
 
   return (
     <ProtectedRoute>
@@ -122,19 +102,6 @@ const DashboardHome = () => {
                 plugins: {
                   legend: { position: 'top' },
                   title: { display: true, text: 'Pantry Categories' },
-                },
-              }}
-            />
-          </div>
-          <div className="p-4 rounded-lg shadow w-[50%]">
-            <h2 className="text-xl font-semibold mb-4">Inventory Categories</h2>
-            <Bar
-              data={inventoryChartData}
-              options={{
-                responsive: true,
-                plugins: {
-                  legend: { position: 'top' },
-                  title: { display: true, text: 'Inventory Categories' },
                 },
               }}
             />

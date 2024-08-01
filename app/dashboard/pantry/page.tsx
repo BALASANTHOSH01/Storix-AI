@@ -67,36 +67,36 @@ const Pantry = () => {
     setEditingItem(null);
   };
 
-  
   return (
     <DashboardLayout>
-      <div className=" flex justify-between items-center">
+      <div className=" flex justify-between md:flex-col items-center lg:py-10">
+        <h1 className="text-3xl font-bold text-center py-8">
+          Pantry Management
+        </h1>
 
-      <h1 className="text-3xl font-bold text-center py-8">
-        Pantry Management
-      </h1>
-      
-      <button
-        onClick={() => setEditingItem({ name: "", quantity: 0, image: "" })}
-        className="bg-gradient-to-br from-blue-300 to-purple-600 px-5 py-3 rounded-xl hover:from-purple-300 hover:to-purple-600 transition ease-in-out duration-200 font-bold"
-      >
-        Add New Item
-      </button>
+        <button
+          onClick={() => setEditingItem({ name: "", quantity: 0, image: "" })}
+          className="bg-gradient-to-br from-blue-300 to-purple-600 px-5 py-3 rounded-xl hover:from-purple-300 hover:to-purple-600 transition ease-in-out duration-200 font-bold"
+        >
+          Add New Item
+        </button>
       </div>
 
-      {editingItem ? (
-        <AddEditItemForm
-          item={editingItem}
-          onSave={handleSave}
-          onCancel={handleCancel}
-        />
-      ) : (
-        <PantryList
-          items={pantryItems}
-          onEdit={setEditingItem}
-          onDelete={handleDelete}
-        />
-      )}
+      <div className=" pb-20">
+        {editingItem ? (
+          <AddEditItemForm
+            item={editingItem}
+            onSave={handleSave}
+            onCancel={handleCancel}
+          />
+        ) : (
+          <PantryList
+            items={pantryItems}
+            onEdit={setEditingItem}
+            onDelete={handleDelete}
+          />
+        )}
+      </div>
     </DashboardLayout>
   );
 };

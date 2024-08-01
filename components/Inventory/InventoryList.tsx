@@ -1,66 +1,151 @@
 "use client";
 
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import React from 'react';
+import { fetchPantryItems } from '@/services/pantryServices';
+import Tooltip from '../Tooltip/ToolTip';
 
 interface Item {
-  id: string;
+  id?: string;
   name: string;
   quantity: number;
-  category: string; // Added category field
+  category: string;
+  price: number;
   image?: string;
+  expirationDate?: string;
+  storageLocation?: string;
+  notes?: string;
 }
 
-interface InventoryListProps {
-  items: Item[];
-  onEdit: (item: Item) => void;
-  onDelete: (id: string) => void;
-}
+const categoryOptions = [
+  "Vegetables",
+  "Fruits",
+  "Dairy",
+  "Meat",
+  "Fish",
+  "Bakery",
+  "Beverages",
+  "Canned Goods",
+  "Dry Goods",
+  "Frozen Foods",
+  "Snacks",
+  "Condiments",
+  "Spices",
+  "Personal Care",
+  "Cleaning Supplies",
+  "Other"
+];
 
-const InventoryList: React.FC<InventoryListProps> = ({ items, onEdit, onDelete }) => {
+const InventoryList: React.FC = () => {
+  const [items, setItems] = useState<Item[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string>('All');
+  const [filterExpiresSoon, setFilterExpiresSoon] = useState<boolean>(false);
+  const [storageLocation, setStorageLocation] = useState<string>('');
+
+  useEffect(() => {
+    const loadItems = async () => {
+      const pantryItems = await fetchPantryItems();
+      setItems(pantryItems as Item[]); 
+    };
+
+    loadItems();
+  }, []);
+
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedCategory(e.target.value);
+  };
+
+  const handleExpiresSoonChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFilterExpiresSoon(e.target.checked);
+  };
+
+  const handleStorageLocationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setStorageLocation(e.target.value);
+  };
+
+  const filterItems = () => {
+    return items.filter(item => {
+      const isCategoryMatch = selectedCategory === 'All' || item.category === selectedCategory;
+      const isExpirationSoon = !filterExpiresSoon || (item.expirationDate && new Date(item.expirationDate) < new Date(new Date().setDate(new Date().getDate() + 7)));
+      const isStorageMatch = !storageLocation || (item.storageLocation && item.storageLocation.toLowerCase().includes(storageLocation.toLowerCase()));
+      return isCategoryMatch && isExpirationSoon && isStorageMatch;
+    });
+  };
+
   return (
-    <div className=" flex gap-6 flex-wrap">
-      {items.map((item) => (
-        <div key={item.id} className="flex flex-col items-start justify-center p-8 border border-slate-500 rounded-md shadow-sm">
-          <p className="text-sm py-1 px-3 rounded-full text-darkmode mb-2 bg-gradient-to-r from-green-400 to-green-600">{item.category}</p>
-          <div className="flex flex-col items-start">
-            {item.image ? (
-              <Image 
-                src={item.image} 
-                alt={item.name} 
-                width={64} 
-                height={64} 
-                className="w-[200px] h-64 object-cover rounded-md" 
-                onError={(e) => {
-                  (e.target as HTMLImageElement).src = '/path/to/default/image.png'; // Fallback image
-                }}
-              />
-            ) : (
-              <div className="w-[200px] h-64 bg-gray-200 rounded-md flex items-center justify-center text-gray-500">
-                No Image
+    <div>
+      {/* Filters */}
+      <div className="mb-4 p-4 border rounded-lg shadow-md">
+        <div className="mb-2">
+          <label className="block text-sm font-medium">Category</label>
+          <select
+            value={selectedCategory}
+            onChange={handleCategoryChange}
+            className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm border p-2"
+          >
+            <option value="All">All</option>
+            {categoryOptions.map(option => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="mb-2">
+          <label className="inline-flex items-center">
+            <input
+              type="checkbox"
+              checked={filterExpiresSoon}
+              onChange={handleExpiresSoonChange}
+              className="form-checkbox"
+            />
+            <span className="ml-2">Expires Soon (within 7 days)</span>
+          </label>
+        </div>
+        <div className="mb-2">
+          <label className="block text-sm font-medium">Storage Location</label>
+          <input
+            type="text"
+            value={storageLocation}
+            onChange={handleStorageLocationChange}
+            className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm border p-2"
+            placeholder="Search by storage location"
+          />
+        </div>
+      </div>
+
+      {/* Item List */}
+      <div className=" flex gap-6 flex-wrap lg:flex-col items-center">
+        {filterItems().map(item => (
+          <div key={item.id} className="flex flex-col items-start justify-center p-8 border border-slate-500 rounded-md shadow-sm  w-[20%] lg:w-[90%]">
+            {item.image && (
+              <div className="relative w-full h-32 mb-2">
+                <Tooltip title={item.name}>
+                <Image
+                  src={item.image}
+                  alt={item.name}
+                  layout="fill"
+                  className="w-[600px] h-64 object-cover rounded-md"
+                />
+                </Tooltip>
               </div>
             )}
-            <div>
-              <h3 className="text-2xl font-semibold capitalize py-2">{item.name}</h3>
-              <p className="text-sm text-gray-600 py-2">Quantity: {item.quantity}</p>
-            </div>
+            <h3 className="text-2xl font-semibold capitalize py-2">{item.name}</h3>
+            <p className="text-sm text-gray-600 py-2">Category: {item.category}</p>
+            <p className="text-sm text-gray-600 py-2">Quantity: {item.quantity}</p>
+            <p className="text-sm text-gray-600 py-2">Price: ${item.price.toFixed(2)}</p>
+            {item.expirationDate && (
+              <p className="text-sm text-gray-600">Expires: {new Date(item.expirationDate).toLocaleDateString()}</p>
+            )}
+            {item.storageLocation && (
+              <p className="text-sm text-gray-600 py-2">Location: {item.storageLocation}</p>
+            )}
+            {item.notes && (
+              <p className="text-sm text-gray-600 py-2">Notes: {item.notes}</p>
+            )}
           </div>
-          <div className="flex space-x-2">
-            <button
-              onClick={() => onEdit(item)}
-              className="px-4 py-2 bg-yellow-500 text-white rounded-md"
-            >
-              Edit
-            </button>
-            <button
-              onClick={() => onDelete(item.id)}
-              className="px-4 py-2 bg-red-500 text-white rounded-md"
-            >
-              Delete
-            </button>
-          </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 };

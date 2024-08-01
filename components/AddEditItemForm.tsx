@@ -8,7 +8,11 @@ interface Item {
   name: string;
   quantity: number;
   category: string;
+  price: number;
   image?: string;
+  expirationDate?: string;
+  storageLocation?: string;
+  notes?: string;
 }
 
 interface AddEditItemFormProps {
@@ -38,26 +42,31 @@ const categoryOptions = [
 
 const AddEditItemForm: React.FC<AddEditItemFormProps> = ({ item = {}, onSave, onCancel }) => {
   const [name, setName] = useState(item.name || '');
-  const [quantity, setQuantity] = useState(item.quantity || 0);
+  const [quantity, setQuantity] = useState(item.quantity || '');
+  const [price, setPrice] = useState(item.price || '');
   const [category, setCategory] = useState(item.category || categoryOptions[0]); // Default category
   const [image, setImage] = useState(item.image || '');
   const [imageFile, setImageFile] = useState<File | null>(null);
+  const [expirationDate, setExpirationDate] = useState(item.expirationDate || '');
+  const [storageLocation, setStorageLocation] = useState(item.storageLocation || '');
+  const [notes, setNotes] = useState(item.notes || '');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSave({ name, quantity, category, image }, imageFile);
+    onSave({ name, quantity, category, price, image, expirationDate, storageLocation, notes }, imageFile);
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       setImageFile(e.target.files[0]);
+      setImage(URL.createObjectURL(e.target.files[0])); // Preview the selected image
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 border border-slate-500 p-6 md:w-[50%] sm:w-[100%] rounded-lg shadow-md mx-auto">
+    <form onSubmit={handleSubmit} className="space-y-6 border border-slate-500 p-6 rounded-lg shadow-md mx-auto">
       <div>
-        <label className="block text-sm font-medium  ">Name</label>
+        <label className="block text-sm font-medium">Name</label>
         <input
           type="text"
           value={name}
@@ -77,7 +86,17 @@ const AddEditItemForm: React.FC<AddEditItemFormProps> = ({ item = {}, onSave, on
         />
       </div>
       <div>
-        <label className="block text-sm font-medium">Category</label> {/* Added category dropdown */}
+        <label className="block text-sm font-medium">Price</label>
+        <input
+          type="number"
+          value={price}
+          onChange={(e) => setPrice(Number(e.target.value))}
+          className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm border p-2"
+          required
+        />
+      </div>
+      <div>
+        <label className="block text-sm font-medium">Category</label>
         <select
           value={category}
           onChange={(e) => setCategory(e.target.value)}
@@ -90,6 +109,32 @@ const AddEditItemForm: React.FC<AddEditItemFormProps> = ({ item = {}, onSave, on
             </option>
           ))}
         </select>
+      </div>
+      <div>
+        <label className="block text-sm font-medium">Expiration Date</label>
+        <input
+          type="date"
+          value={expirationDate}
+          onChange={(e) => setExpirationDate(e.target.value)}
+          className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm border p-2"
+        />
+      </div>
+      <div>
+        <label className="block text-sm font-medium">Storage Location</label>
+        <input
+          type="text"
+          value={storageLocation}
+          onChange={(e) => setStorageLocation(e.target.value)}
+          className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm border p-2"
+        />
+      </div>
+      <div>
+        <label className="block text-sm font-medium">Notes</label>
+        <textarea
+          value={notes}
+          onChange={(e) => setNotes(e.target.value)}
+          className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm border p-2"
+        />
       </div>
       <div>
         <label className="block text-sm font-medium text-gray-700">Image</label>

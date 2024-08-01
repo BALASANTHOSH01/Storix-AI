@@ -11,7 +11,6 @@ export const fetchPantryItems = async () => {
 
 // Add a new pantry item
 export const addPantryItem = async (item: any) => {
-  console.log("given details :"+item);
   const newDocRef = doc(collection(firestore, "pantryItems"));
   await setDoc(newDocRef, item);
   return { id: newDocRef.id, ...item };
