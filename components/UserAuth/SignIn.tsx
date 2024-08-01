@@ -4,7 +4,7 @@ import {
   signInWithEmail,
   logout,
 } from "@/services/authService";
-import { Toaster, toast } from 'sonner'
+import { Toaster, toast } from 'sonner';
 
 const SignInForm: FC = () => {
   const [email, setEmail] = useState<string>("");

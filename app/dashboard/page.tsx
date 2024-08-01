@@ -220,7 +220,7 @@ const DashboardHome = () => {
             value={expiringItems.toString()}
           />
         </div>
-        <div className="mt-8 grid md:grid-cols-1 lg:grid-cols-2 grid-cols-3 gap-6 lg:pb-20">
+        <div className="mt-8 grid md:grid-cols-1 grid-cols-2 gap-6 lg:pb-20">
           <div className="p-4 rounded shadow col-span-1 md:col-span-1 lg:col-span-1">
             <h2 className="text-xl font-semibold mb-4">Pantry Categories</h2>
             <Bar
@@ -248,7 +248,7 @@ const DashboardHome = () => {
               }}
             />
           </div>
-          <div className="p-4 rounded shadow col-span-1 md:col-span-2 lg:col-span-1">
+          <div className="p-4 rounded shadow col-span-1 md:col-span-1 lg:col-span-1">
             <h2 className="text-xl font-semibold mb-4">Inventory Over Time</h2>
             <Line
               data={inventoryLineChartData}

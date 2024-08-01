@@ -131,7 +131,7 @@ const InventoryList: React.FC = () => {
       </div>
 
       {/* Item List */}
-      <div className=" flex gap-6 flex-wrap lg:flex-col items-center">
+      <div className=" flex gap-6 flex-wrap lg:flex-col items-strech lg:items-center">
         {filterItems().map((item) => (
           <div
             key={item.id}
@@ -145,8 +145,8 @@ const InventoryList: React.FC = () => {
                 <Image
                   src={item.image}
                   alt={item.name}
-                  width={64}
-                  height={64}
+                  width={400}
+                  height={400}
                   className="w-[600px] h-64 object-cover rounded-md"
                   onError={(e) => {
                     (e.target as HTMLImageElement).src =

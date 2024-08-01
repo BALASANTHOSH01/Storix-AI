@@ -22,18 +22,18 @@ interface PantryListProps {
 
 const PantryList: React.FC<PantryListProps> = ({ items, onEdit, onDelete }) => {
   return (
-    <div className="flex gap-6 flex-wrap lg:flex-col items-center">
+    <div className="flex gap-6 flex-wrap lg:flex-col items-stretch">
       {items.map((item) => (
         <div key={item.id} className="flex flex-col items-start justify-center p-8 border border-slate-500 rounded-md shadow-sm w-[25%] lg:w-[90%]">
-          <p className="text-sm py-1 px-3 rounded-full text-darkmode mb-2 bg-gradient-to-r from-green-400 to-green-600">{item.category}</p>
-          <div className="flex flex-col items-start">
+          <p className="text-sm py-1 px-3 rounded-full mb-2 bg-[#e1ffe1] text-green-600">{item.category}</p>
+          <div className="flex flex-col items-start flex-grow">
             {item.image ? (
               <Tooltip title={item.name}>
                 <Image 
                   src={item.image} 
                   alt={item.name} 
-                  width={64} 
-                  height={64} 
+                  width={400}
+                  height={400}
                   className="w-[600px] h-64 object-cover rounded-md" 
                   onError={(e) => {
                     (e.target as HTMLImageElement).src = '/path/to/default/image.png'; // Fallback image
