@@ -95,15 +95,6 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
             </li>
             <li>
               <Link
-                href="/dashboard/reports"
-                className="block p-4 rounded flex items-center gap-3"
-              >
-                <FaChartBar />
-                {isExpanded && <span>Reports</span>}
-              </Link>
-            </li>
-            <li>
-              <Link
                 href="/dashboard/storai"
                 className=" p-4 rounded flex items-center gap-3"
               >
@@ -209,17 +200,6 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
               >
                 <FaBox className="text-2xl" />
                 <span className="text-sm md:hidden">Inventory</span>
-              </Link>
-            </Tooltip>
-          </li>
-          <li>
-            <Tooltip title={"Reports"}>
-              <Link
-                href="/dashboard/reports"
-                className="flex flex-col items-center p-2"
-              >
-                <FaChartBar className="text-2xl" />
-                <span className="text-sm md:hidden">Reports</span>
               </Link>
             </Tooltip>
           </li>
