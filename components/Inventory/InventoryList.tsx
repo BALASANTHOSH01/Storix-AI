@@ -115,7 +115,7 @@ const InventoryList: React.FC = () => {
       </div>
 
       {/* Item List */}
-      <div className=" flex gap-6 flex-wrap lg:flex-col items-center">
+      <div className=" flex gap-6 flex-wrap lg:flex-col items-center pb-20">
         {filterItems().map(item => (
           <div key={item.id} className="flex flex-col items-start justify-center p-8 border border-slate-500 rounded-md shadow-sm  w-[20%] lg:w-[90%]">
             {item.image ? (

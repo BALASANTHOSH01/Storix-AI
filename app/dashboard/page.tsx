@@ -24,9 +24,7 @@ const DashboardHome = () => {
   const router = useRouter();
   const [user, setUser] = useState<any>(null);
   const [pantryItemsCount, setPantryItemsCount] = useState<number>(0);
-  const [inventoryItemsCount, setInventoryItemsCount] = useState<number>(0);
   const [pantryCategories, setPantryCategories] = useState<{ [key: string]: number }>({});
-  const [inventoryCategories, setInventoryCategories] = useState<{ [key: string]: number }>({});
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -88,12 +86,11 @@ const DashboardHome = () => {
       <DashboardLayout>
         <h1 className="text-3xl font-bold">Dashboard</h1>
         {error && <p className="text-red-500">{error}</p>}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+        <div className="grid lg:grid-cols-1 grid-cols-3 gap-4 mt-4">
           <ReportCard title="Total Pantry Items" value={pantryItemsCount.toString()} />
-          <ReportCard title="Total Inventory" value={inventoryItemsCount.toString()} />
         </div>
-        <div className="mt-8 flex gap-6">
-          <div className="p-4 rounded shadow w-[50%]">
+        <div className="mt-8 flex gap-6 w-[80%] lg:w-full">
+          <div className="p-4 rounded shadow w-full">
             <h2 className="text-xl font-semibold mb-4">Pantry Categories</h2>
             <Pie
               data={pantryChartData}
