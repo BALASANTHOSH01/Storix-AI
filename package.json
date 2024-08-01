@@ -9,8 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@google-cloud/vision": "^4.3.0",
     "@phosphor-icons/react": "^2.1.7",
     "autoprefixer": "^10.4.19",
+    "axios": "^1.7.3",
     "chart.js": "^4.4.3",
     "dayjs": "^1.11.12",
     "firebase": "^10.12.4",
