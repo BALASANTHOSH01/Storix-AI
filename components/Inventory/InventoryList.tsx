@@ -118,15 +118,24 @@ const InventoryList: React.FC = () => {
       <div className=" flex gap-6 flex-wrap lg:flex-col items-center">
         {filterItems().map(item => (
           <div key={item.id} className="flex flex-col items-start justify-center p-8 border border-slate-500 rounded-md shadow-sm  w-[20%] lg:w-[90%]">
-            {item.image && (
-              <div className="relative w-full h-32 mb-2">
-                <Tooltip title={item.name}>
-                <Image
-                  src={item.image}
-                  alt={item.name}
-                  layout="fill"
-                  className="w-[600px] h-64 object-cover rounded-md"
+            {item.image ? (
+              <Tooltip title={item.name}>
+              <Image 
+                src={item.image} 
+                alt={item.name} 
+                width={64}
+                height={64}
+                className=" w-[600px] h-64 object-cover rounded-md" 
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = '/path/to/default/image.png'; // Fallback image
+                }}
                 />
+                </Tooltip>
+            ) : (
+              <div className="">
+                <Tooltip title={'Random Alt Image'}>
+                <img src="https://picsum.photos/256/" width={64} 
+                height={64} alt='random' className=' w-[600px] h-64 object-cover rounded-md'/>
                 </Tooltip>
               </div>
             )}

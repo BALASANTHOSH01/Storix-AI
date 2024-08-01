@@ -42,7 +42,7 @@ const PantryList: React.FC<PantryListProps> = ({ items, onEdit, onDelete }) => {
                 </Tooltip>
             ) : (
               <div className="">
-                <Tooltip title={'Random Alt Image'}>
+                <Tooltip title={'Random Alternative Picture'}>
                 <img src="https://picsum.photos/256/" width={64} 
                 height={64} alt='random' className=' w-[600px] h-64 object-cover rounded-md'/>
                 </Tooltip>
@@ -65,7 +65,7 @@ const PantryList: React.FC<PantryListProps> = ({ items, onEdit, onDelete }) => {
               Edit
             </button>
             <button
-              onClick={() => onDelete(item.id)}
+              onClick={() => item.id && onDelete(item.id)}
               className="px-4 py-2 bg-red-500 text-white rounded-md"
             >
               Delete
