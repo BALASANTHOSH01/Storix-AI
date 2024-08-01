@@ -135,11 +135,12 @@ const InventoryList: React.FC = () => {
         {filterItems().map((item) => (
           <div
             key={item.id}
-            className="flex flex-col items-start justify-center p-8 border border-slate-500 rounded-md shadow-sm w-[25%] lg:w-[90%]"
+            className="flex flex-col items-start justify-start p-8 border border-slate-500 rounded-md shadow-sm w-[25%] lg:w-[90%]"
           >
-            <p className="text-sm py-1 px-3 rounded-full text-darkmode mb-2 bg-gradient-to-r from-green-400 to-green-600">
+            <p className="text-sm py-1 px-3 rounded-full  mb-2 bg-gradient-to-r bg-[#e1ffe1] text-green-600">
               {item.category}
             </p>
+
             {item.image ? (
               <Tooltip title={item.name}>
                 <Image

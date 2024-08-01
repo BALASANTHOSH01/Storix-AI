@@ -8,3 +8,34 @@
         @apply dark:bg-[#1b1c1e] bg-[#f2f8fc];
     }
 }
+
+.feature-card {
+    position: relative;
+    overflow: hidden;
+    border: 2px solid transparent;
+    background-color: rgba(255, 255, 255, 0.1); /* Adjust transparency as needed */
+    backdrop-filter: blur(10px); /* Optional: for a frosted glass effect */
+  }
+  
+  .shiny-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    pointer-events: none;
+    animation: shiny 2s linear infinite;
+    background-image: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.148), transparent);
+    background-size: 200% 100%;
+  }
+
+  
+  @keyframes shiny {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
+  

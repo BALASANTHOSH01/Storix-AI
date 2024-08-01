@@ -15,11 +15,11 @@ const NavBar = () => {
       <div className=" flex items-center justify-around md:justify-between w-full px-8 py-4">
         <Link href={"/"} className=" flex items-center gap-1 justify-center">
           <Image src={StroixAI} width={40} alt="Stroix AI" />
-          <p className=" font-bold text-2xl">Stroix AI</p>
+          <p className=" font-bold text-2xl">Storix AI</p>
         </Link>
         <div className=" flex w-[40%] justify-around items-center md:hidden">
-          <Link href={"/"}>Features</Link>
-          <Link href={"/"}>Support</Link>
+          <Link href={"/#features"}>Features</Link>
+          <Link href={"/#support"}>Support</Link>
         </div>
         <div className=" flex items-center justify-center gap-6 md:hidden">
           <div className=" text-2xl">

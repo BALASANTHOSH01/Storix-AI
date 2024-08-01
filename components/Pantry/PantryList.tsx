@@ -22,7 +22,7 @@ interface PantryListProps {
 
 const PantryList: React.FC<PantryListProps> = ({ items, onEdit, onDelete }) => {
   return (
-    <div className="flex gap-6 flex-wrap lg:flex-col items-stretch">
+    <div className="flex gap-6 flex-wrap lg:flex-col items-stretch lg:items-center">
       {items.map((item) => (
         <div key={item.id} className="flex flex-col items-start justify-center p-8 border border-slate-500 rounded-md shadow-sm w-[25%] lg:w-[90%]">
           <p className="text-sm py-1 px-3 rounded-full mb-2 bg-[#e1ffe1] text-green-600">{item.category}</p>
@@ -63,7 +63,7 @@ const PantryList: React.FC<PantryListProps> = ({ items, onEdit, onDelete }) => {
           <div className="flex justify-end gap-4 w-full mt-4">
             <button
               onClick={() => onEdit(item)}
-              className="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600"
+              className="px-4 py-2 bg-transparent border border-slate-400 rounded-md"
             >
               Edit
             </button>

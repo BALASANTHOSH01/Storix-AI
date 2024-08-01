@@ -160,7 +160,7 @@ const AddEditItemForm: React.FC<AddEditItemFormProps> = ({ item = {}, onSave, on
         </button>
         <button
           type="submit"
-          className="px-4 py-2 bg-blue-500 text-white rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 w-[50%]"
+          className="bg-gradient-to-br from-blue-300 to-purple-600 px-5 py-4 rounded-xl hover:from-purple-300 hover:to-purple-600 transition ease-in-out duration-200 font-bold w-1/2"
         >
           Save
         </button>

@@ -6,6 +6,7 @@ import HeroImg from "@/public/hero.png";
 
 const Hero = () => {
 
+
   return (
     <div className=" flex flex-col items-center justify-center">
       <div className=" min-h-dvh flex flex-col items-center justify-center w-[80%] md:w-[100%] text-center p-10">
@@ -24,8 +25,8 @@ const Hero = () => {
           <PrimaryBtn href={"/auth"} children={"SignUp Now - Free"} />
           <SecondaryBtn href={"/"} children={"Explore More"} />
         </div>
-        <div>
-          <Image src={HeroImg} alt="Hero Banner"></Image>
+        <div className=" py-8 ">
+          <Image src={HeroImg} alt="Hero Banner" className=" rounded-b-2xl shadow-xl"></Image>
         </div>
       </div>
     </div>
