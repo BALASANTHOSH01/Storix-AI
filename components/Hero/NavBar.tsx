@@ -101,7 +101,7 @@ const NavBar = () => {
               </Link>
             </div>
             <div className="p-6">
-              <PrimaryBtn children={"SignIn"} href={"/"} />
+              <PrimaryBtn children={"SignIn"} href={"/auth"} />
             </div>
           </div>
         </div>

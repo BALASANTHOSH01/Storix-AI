@@ -6,6 +6,7 @@ import Image from "next/image";
 
 const UserProfile = ({isExpanded}:any) => {
   const { user } = useAuth(); // Fetch user data
+  
 
   return (
     <div className=" border-gray-700 flex items-center space-x-4">
