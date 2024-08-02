@@ -128,6 +128,7 @@ const DashboardHome = () => {
       console.error("Error fetching data", error);
     }
   };
+  
 
   const [needsProfileImage, setNeedsProfileImage] = useState(false);
 
