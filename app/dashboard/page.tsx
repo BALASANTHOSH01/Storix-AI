@@ -141,18 +141,16 @@ const DashboardHome = () => {
 
   const generateCategoryColors = (categories: string[]): string[] => {
     const colorPalette = [
-      "#0d74a0",
-      "#5fa765",
-      "#95c3ae",
-      "#f4654b",
-      "#f0cc14",
-      "#FF9F40",
-      "#C9CBCF",
-      "#FFBF00",
-      "#FF6F61",
-      "#6B5B95",
-      "#88B04B",
-      "#F7CAC9",
+      "#1abffb", // Soft Blue
+      "#1347cb", // Dark Blue
+      "#7e32ea", // Purple
+      "#ee13ea", // Lavender
+      "#c11526", // Red
+      "#fa6060", // Beige
+      "#e2720f", // Dark Orange
+      "#e8ab27", // Dark Yellow
+      "#4ddd21", // Green
+      "#119667", // Jade
     ];
     return categories.map(
       (_, index) => colorPalette[index % colorPalette.length]

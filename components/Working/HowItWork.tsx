@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box, List, CheckCircle, Clipboard, MessageSquareCode , User } from 'lucide-react';
+import Link from 'next/link';
 
 const steps = [
  
@@ -50,12 +51,12 @@ const HowItWorks = () => {
           ))}
         </div>
         <div className="text-center mt-12">
-  <a 
-    href="#signup" 
+  <Link 
+    href="/auth" 
     className="inline-block px-6 py-3 bg-gradient-to-r from-blue-500 to-teal-500 text-white font-semibold rounded-lg shadow-lg hover:from-blue-600 hover:to-teal-600 transition duration-300"
   >
     Start managing your pantry effortlessly with Storix AI today!
-  </a>
+  </Link>
 </div>
 
       </div>

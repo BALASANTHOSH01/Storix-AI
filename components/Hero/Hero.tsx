@@ -23,7 +23,7 @@ const Hero = () => {
         </p>
         <div className=" flex md:flex-col items-center justify-center gap-5">
           <PrimaryBtn href={"/auth"} children={"SignUp Now - Free"} />
-          <SecondaryBtn href={"/"} children={"Explore More"} />
+          <SecondaryBtn href={"/#how-it-works"} children={"Explore More"} />
         </div>
         <div className=" py-8 ">
           <Image src={HeroImg} alt="Hero Banner" className=" rounded-b-2xl shadow-xl"></Image>

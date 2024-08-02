@@ -30,16 +30,6 @@ const config: Config = {
         darkmode:'#1b1c1e',
         lightmode: '#f2f8fc'
       },
-      animation: {
-        marquee: 'marquee 10s linear infinite',
-      },
-      keyframes: {
-        marquee: {
-          '0%': { transform: 'translateX(0%)' },
-          '50%': { transform: 'translateX(-100%)' },
-          '100%': { transform: 'translateX(-150%)' },
-        },
-      },
     },
   },
   plugins: [],
