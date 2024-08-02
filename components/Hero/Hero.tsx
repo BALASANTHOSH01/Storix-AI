@@ -10,7 +10,7 @@ const Hero = () => {
   return (
     <div className=" flex flex-col items-center justify-center">
       <div className=" min-h-dvh flex flex-col items-center justify-center w-[80%] md:w-[100%] text-center p-10">
-        <h1 className=" text-5xl font-bold">
+        <h1 className=" text-5xl font-bold bg-gradient-to-br from-blue-600 to-violet-600 bg-clip-text text-transparent p-2">
           Revolutionize Your Pantry Management
         </h1>
         <p className=" text-slate-500 py-6 md:text-sm">

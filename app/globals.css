@@ -2,40 +2,124 @@
 @tailwind components;
 @tailwind utilities;
 
-
-@layer base{
-    body {
-        @apply dark:bg-[#1b1c1e] bg-[#f2f8fc];
-    }
+@layer base {
+  body {
+    @apply dark:bg-[#1b1c1e] bg-[#f2f8fc];
+  }
 }
 
 .feature-card {
-    position: relative;
-    overflow: hidden;
-    border: 2px solid transparent;
-    background-color: rgba(255, 255, 255, 0.1); /* Adjust transparency as needed */
-    backdrop-filter: blur(10px); /* Optional: for a frosted glass effect */
-  }
-  
-  .shiny-line {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    pointer-events: none;
-    animation: shiny 2s linear infinite;
-    background-image: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.148), transparent);
-    background-size: 200% 100%;
-  }
+  position: relative;
+  overflow: hidden;
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.1
+  ); /* Adjust transparency as needed */
+  backdrop-filter: blur(10px); /* Optional: for a frosted glass effect */
+}
 
-  
-  @keyframes shiny {
-    0% {
-      background-position: 200% 0;
-    }
-    100% {
-      background-position: -200% 0;
-    }
+.shiny-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  pointer-events: none;
+  animation: shiny 2s linear infinite;
+  background-image: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.148),
+    transparent
+  );
+  background-size: 200% 100%;
+}
+
+@keyframes shiny {
+  0% {
+    background-position: 200% 0;
   }
-  
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.marquee-container {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  padding: 0 16px; /* Ensure some padding on sides */
+}
+
+.marquee-content {
+  display: flex;
+  width: 100%;
+  animation: marquee 30s linear infinite;
+  transition: animation 0.5s ease; /* Smooth transition */
+}
+
+.marquee-container:hover .marquee-content {
+  animation-play-state: paused; /* Pause animation on hover */
+}
+
+.marquee-item {
+  flex: 0 0 auto;
+  width: 300px; /* Adjust width as needed */
+  padding: 16px;
+  margin: 0 16px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative; /* Position relative for overlay */
+  min-height: 200px; /* Ensure a minimum height for better visibility */
+}
+
+.marquee-item .overlay {
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 8px;
+  padding: 16px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: white; /* Ensure text is visible over the overlay */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  text-align: center;
+}
+
+/* Marquee animation */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* Smoke blur effect at the start and end */
+.marquee-container::before,
+.marquee-container::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50px; /* Adjust width as needed */
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.9), );
+  pointer-events: none;
+  z-index: 1;
+}
+
+.marquee-container::before {
+  left: 0;
+}
+
+.marquee-container::after {
+  right: 0;
+  background: linear-gradient(to left, rgba(255, 255, 255, 0.9), );
+}

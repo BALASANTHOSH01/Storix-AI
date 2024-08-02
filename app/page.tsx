@@ -9,6 +9,9 @@ import NavBar from "@/components/Hero/NavBar";
 import Hero from "@/components/Hero/Hero";
 import Features from "@/components/Features/Features"
 import BuyMeCoffee from "@/components/Support/BuyMeCoffee";
+import HowItWorks from "@/components/Working/HowItWork";
+import UseCases from "@/components/UseCases/UseCases";
+import Footer from "@/components/Footer/Footer";
 
 const Home = () => {
   const router = useRouter();
@@ -27,7 +30,10 @@ const Home = () => {
       <NavBar />
       <Hero />
       <Features />
+      <HowItWorks />
+      <UseCases />
       <BuyMeCoffee />
+      <Footer />
     </div>
   );
 };

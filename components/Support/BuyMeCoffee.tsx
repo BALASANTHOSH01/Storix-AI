@@ -23,10 +23,10 @@ const BuyMeCoffee = () => {
           </div>
         </div>
       </div>
-      <div className=" p-4 text-center border-t flex justify-between border-slate-500">
+      {/* <div className=" p-4 text-center border-t flex justify-between border-slate-500">
         <p className=" text-slate-500">&#9400; Copyright 2024 Storix!</p>
         <p>Build with love ❤️!</p>
-      </div>
+      </div> */}
     </div>
   );
 };

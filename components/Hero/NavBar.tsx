@@ -20,6 +20,7 @@ const NavBar = () => {
         <div className=" flex w-[40%] justify-around items-center md:hidden">
           <Link href={"/#features"}>Features</Link>
           <Link href={"/#support"}>Support</Link>
+          <Link href={"/#use-cases"}>Use Cases</Link>
         </div>
         <div className=" flex items-center justify-center gap-6 md:hidden">
           <div className=" text-2xl">
@@ -86,18 +87,25 @@ const NavBar = () => {
                 </svg>
               </button>
               <Link
-                href={"/#comingsoon"}
+                href={"#features"}
                 onClick={toggleMenu}
                 className="py-2 text-gray-800 dark:text-lightmode "
               >
                 Features
               </Link>
               <Link
-                href={"/#comingsoon"}
+                href={"#support"}
                 onClick={toggleMenu}
                 className="py-2 text-gray-800 dark:text-lightmode "
               >
                 Support
+              </Link>
+              <Link
+                href={"#use-cases"}
+                onClick={toggleMenu}
+                className="py-2 text-gray-800 dark:text-lightmode "
+              >
+                Use Cases
               </Link>
             </div>
             <div className="p-6">
