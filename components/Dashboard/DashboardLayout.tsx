@@ -19,6 +19,7 @@ import Image from "next/image";
 import StroixAI from "@/public/storixai.png";
 import Tooltip from "../Tooltip/ToolTip";
 import { useAuth } from "@/hooks/useAuth";
+import { toast, Toaster } from "sonner";
 
 const DashboardLayout = ({ children }: { children: ReactNode }) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -27,15 +28,36 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
   const { user } = useAuth();
 
   const handleSignOut = async () => {
-    const confirmed = window.confirm("Are you sure you want to sign out?");
-    if (confirmed) {
-      try {
-        await signOut(auth);
-        window.location.href = "/";
-      } catch (error) {
-        console.error("Error signing out:", error);
+    toast(
+      <div className="flex flex-col text-center justify-center items-center">
+        <p className="mb-4 text-xl font-bold">Are you sure you want to sign out?</p>
+        <div className="flex items-center gap-4">
+          <button
+            className="px-3 py-1 bg-gradient-to-tr from-emerald-300 to-green-500 rounded-lg"
+            onClick={async () => {
+              try {
+                await signOut(auth);
+                window.location.href = "/";
+              } catch (error) {
+                console.error("Error signing out:", error);
+              }
+              toast.dismiss();
+            }}
+          >
+            Confirm
+          </button>
+          <button
+            className="px-3 py-1 bg-gradient-to-tr from-red-300 to-red-500 rounded-lg"
+            onClick={() => toast.dismiss()}
+          >
+            Dismiss
+          </button>
+        </div>
+      </div>,
+      {
+        duration: 5000,
       }
-    }
+    );
   };
 
   const handleImageClick = () => {
@@ -216,6 +238,7 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
           </li>
         </ul>
       </nav>
+      <Toaster richColors position="top-center" />
       <main className="flex-1 p-6 overflow-auto">{children}</main>
     </div>
   );
